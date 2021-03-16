@@ -12,6 +12,7 @@ commands:
     aliases: [pvp]
     usage: Error! Ask admins to correct the issue. 
   warp:
+    aliases: [warps]
     usage: Make sure to write /<command> <warp_name>. Do /help commands to get help on commands.
   setwarp:
     usage: Make sure to write /<command> <warp_name> <here/[x] [y] [z]>.

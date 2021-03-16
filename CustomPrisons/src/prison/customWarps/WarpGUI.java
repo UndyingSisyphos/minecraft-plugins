@@ -105,6 +105,7 @@ public class WarpGUI implements GUICreator {
 		}
 		return mines;
 	}
+	
 	public void setMines(CustomGUI mines) {
 		this.mines = mines;
 	}
@@ -245,6 +246,7 @@ public class WarpGUI implements GUICreator {
 		standard_mines.setItem(u.createItem(Material.GOLDEN_APPLE, 1, 0, u.chat("&6Max Rankup"), u.chat(""), u.chat("&fCost: ")), 53);
 		return standard_mines;
 	}
+	
 	public void setStandardMines(CustomGUI standard_mines) {
 		this.standard_mines = standard_mines;
 	}
