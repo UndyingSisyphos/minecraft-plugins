@@ -1,0 +1,9 @@
+INDEX VERSION 1.131+E:\Coding\Minecraft Bukkit Plugins\.metadata\.plugins\org.eclipse.jdt.core
+3386079096.index
+1857338447.index
+4168404906.index
+1627992005.index
+3233566660.index
+3356051590.index
+1037300004.index
+1561321877.index

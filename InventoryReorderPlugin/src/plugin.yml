@@ -1,0 +1,7 @@
+main: reorder.main.Main
+name: InventoryTweaks
+version: 1.0
+author: DuoClip
+api-version: 1.13
+
+commands:

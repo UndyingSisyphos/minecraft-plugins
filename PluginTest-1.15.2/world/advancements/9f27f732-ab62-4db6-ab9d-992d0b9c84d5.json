@@ -1,0 +1,33 @@
+{
+  "minecraft:recipes/misc/charcoal": {
+    "criteria": {
+      "has_log": "2021-03-15 23:04:23 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/oak_planks": {
+    "criteria": {
+      "has_log": "2021-03-15 23:04:23 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/chest": {
+    "criteria": {
+      "has_lots_of_items": "2021-03-15 23:04:27 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/oak_wood": {
+    "criteria": {
+      "has_log": "2021-03-15 23:04:23 +0100"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:plains": "2021-03-15 23:03:28 +0100"
+    },
+    "done": false
+  },
+  "DataVersion": 2230
+}

@@ -1,0 +1,101 @@
+main: prison.main.Main
+  api: 
+name: SpawnWarp
+version: "1.0"
+author: DuoClip
+
+commands:
+  spawn:
+    usage: Error! Ask admins to correct the issue. 
+  crates:
+    usage: Error! Ask admins to correct the issue. 
+  pvpmine:
+    aliases: [pvp]
+    usage: Error! Ask admins to correct the issue. 
+  warp:
+    usage: Error! Make sure to write /<command> <warp_name>. Do /help commands to get help on commands.
+  setwarp:
+    usage: Error! Make sure to write /<command> <warp_name> [x] [y] [z].
+  delwarp:
+    usage: Error! Make sure to write /<command> <warp_name>.
+  withdraw:
+    usage: Error! Make sure to write /<command> <currency> <amount>. Do /help commands to get help on commands.
+  bal:
+    usage: Error! Make sure to write /<command> <currency> <player_name>. Do /help commands to get help on commands.
+  pay:
+    usage: Error! Make sure to write /<command> <currency> <amount> <player_name>. Do /help commands to get help on commands.
+
+permissions:
+  warp.mine.a:
+    default: true
+  warp.mine.b:
+    default: false
+  warp.mine.c:
+    default: false
+  warp.mine.d:
+    default: false
+  warp.mine.e:
+    default: false
+  warp.mine.f:
+    default: false
+  warp.mine.g:
+    default: false
+  warp.mine.h:
+    default: false
+  warp.mine.i:
+    default: false
+  warp.mine.j:
+    default: false
+  warp.mine.k:
+    default: false
+  warp.mine.l:
+    default: false
+  warp.mine.m:
+    default: false
+  warp.mine.n:
+    default: false
+  warp.mine.o:
+    default: false
+  warp.mine.p:
+    default: false
+  warp.mine.q:
+    default: false
+  warp.mine.r:
+    default: false
+  warp.mine.s:
+    default: false
+  warp.mine.t:
+    default: false
+  warp.mine.u:
+    default: false
+  warp.mine.v:
+    default: false
+  warp.mine.w:
+    default: false
+  warp.mine.x:
+    default: false
+  warp.mine.y:
+    default: false
+  warp.mine.z:
+    default: false
+  warp.mine.p1:
+    default: false
+  warp.mine.p2:
+    default: false
+  warp.mine.p3:
+    default: false
+  warp.mine.p4:
+    default: false
+  warp.mine.p5:
+    default: false
+  warp.mine.p6:
+    default: false
+  warp.mine.p7:
+    default: false
+  warp.mine.p8:
+    default: false
+  warp.mine.p9:
+    default: false
+  warp.mine.p10:
+    default: false  
+  
