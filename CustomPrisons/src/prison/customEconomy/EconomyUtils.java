@@ -10,7 +10,7 @@ import prison.main.Utils;
 @SuppressWarnings("unused")
 public class EconomyUtils {
 	
-	private static EconomyUtils istance = null;
+	private static EconomyUtils instance = null;
 	private Main main = null;
 	private Utils u = null;
 	private String positivePrefix = null;
@@ -24,10 +24,10 @@ public class EconomyUtils {
 	}
 	
 	public static EconomyUtils getIstance(Main main) {
-		if(istance == null) {
-			istance = new EconomyUtils(main);
+		if(instance == null) {
+			instance = new EconomyUtils(main);
 		}
-		return istance;
+		return instance;
 	}
 	
 	public String getGemsSymbol() {

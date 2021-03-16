@@ -17,6 +17,7 @@ import prison.main.Utils;
 @SuppressWarnings({"unused"})
 public class GUIManager {
 	
+	private static GUIManager instance = null;
 	private Main main = null;
 	private Utils u = null;
 	
@@ -26,11 +27,18 @@ public class GUIManager {
 	
 	public GUIManager(Main main) {
 		this.main = main;
-		u = new Utils();
-		gl = new GUIListener(main, this);
+		u = Utils.getInstance();
+		gl = new GUIListener(main);
 		warps = new WarpGUI(main);
 		all_guis = new HashMap<String,GUICreator>();
 		initGUIs();
+	}
+	
+	public static GUIManager getInstance(Main main) {
+		if(instance == null) {
+			instance = new GUIManager(main);
+		}
+		return instance;
 	}
 	
 	public void initGUIs() {

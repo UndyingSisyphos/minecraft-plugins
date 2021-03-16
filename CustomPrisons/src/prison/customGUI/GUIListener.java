@@ -23,17 +23,18 @@ public class GUIListener implements Listener{
 	private GUIManager gm = null;
 	private WarpManager wm = null;
 	
-	public GUIListener(Main main, GUIManager gm) {
+	public GUIListener(Main main) {
 		this.main = main;
 		main.getServer().getPluginManager().registerEvents((Listener) this, (Plugin) main);
-		u = new Utils();
-		gu = new GUIUtils(main);
-		this.gm = gm;
-		wm = main.getWM();
+		u = Utils.getInstance();
+		gu = GUIUtils.getInstance(main);
+		gm = GUIManager.getInstance(main);
+		wm = WarpManager.getInstance(main);
 	}
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
+		
 		Player p = (Player) e.getWhoClicked();
 		if(e.getClickedInventory() != null) {
 			if(e.getClickedInventory().equals(gm.getInv("warps", p))) {
@@ -41,9 +42,9 @@ public class GUIListener implements Listener{
 				e.setCancelled(true);
 				if(!clickedItem.equals(gu.placeholder())) {
 					if(clickedItem.getType().equals(Material.NETHER_STAR)) {
-						wm.tp((Player) e.getWhoClicked(), "spawn");
+						wm.tp(p, "spawn");
 					} else if(clickedItem.getType().equals(Material.CHEST)) {
-						wm.tp((Player) e.getWhoClicked(), "crates");
+						wm.tp(p, "crates");
 					} else if(clickedItem.getType().equals(Material.COBBLESTONE)) {
 						p.openInventory(gm.getInv("mines", p));
 					} else if(clickedItem.getType().equals(Material.GRASS)) {

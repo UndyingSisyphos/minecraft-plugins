@@ -10,20 +10,30 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import prison.main.FilesManager;
 import prison.main.Main;
 
+@SuppressWarnings("unused")
 public class EconomyManager implements Listener {
 	
+	private static EconomyManager instance = null;
 	private Main main = null;
+	
 	private EconomyListener el = null;
 	private Map<UUID,PlayerData> map = null;
 	
 	public EconomyManager(Main main) {
 		this.main = main;
 		main.getServer().getPluginManager().registerEvents((Listener) this, main);
-		el = new EconomyListener(main, this);
-		main.getServer().getPluginManager().registerEvents((Listener) el, main);
-		map = main.getFM().readPlayersData();
+		el = new EconomyListener(main);
+		map = FilesManager.getInstance(main).readPlayersData();
+	}
+	
+	public static EconomyManager getInstance(Main main) {
+		if(instance == null) {
+			instance = new EconomyManager(main);
+		}
+		return instance;
 	}
 	
 	@EventHandler

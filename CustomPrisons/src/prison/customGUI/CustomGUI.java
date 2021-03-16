@@ -33,8 +33,8 @@ public class CustomGUI {
 	// Override
 	public CustomGUI(Main main, String inv_name, int inv_rows) {
 		this.main = main;
-		u = new Utils();
-		gu = new GUIUtils(main);
+		u = Utils.getInstance();
+		gu = GUIUtils.getInstance(main);
 		this.inv_name = inv_name;
 		this.inv_rows = inv_rows;
 		this.inv_slots = inv_rows * 9;

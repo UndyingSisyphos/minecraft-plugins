@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import prison.customGUI.GUIManager;
+import prison.customRewards.RewardsManager;
 import prison.main.FilesManager;
 import prison.main.Main;
 import prison.main.Utils;
@@ -15,19 +16,27 @@ import prison.main.Utils;
 @SuppressWarnings({"unused"})
 public class WarpManager {
 	
-	private Main main;
+	private static WarpManager instance = null;
+	private Main main = null;
 	private Utils u = null;
 	private WarpUtils wu = null;
 	
-	private WarpExecutor wEx = null;
+	private WarpExecutor wex = null;
 	private Map<String,Location> warps = null;
 	
 	public WarpManager(Main main) {
 		this.main = main;
-		u = new Utils();
-		wu = new WarpUtils(main);
-		wEx = new WarpExecutor(main, this);
-		warps = main.getFM().readWarps();
+		u = Utils.getInstance();
+		warps = FilesManager.getInstance(main).readWarps();
+		wu = WarpUtils.getInstance(main);
+		wex = new WarpExecutor(main);
+	}
+	
+	public static WarpManager getInstance(Main main) {
+		if(instance == null) {
+			instance = new WarpManager(main);
+		}
+		return instance;
 	}
 	
 	public void createWarp(Player p, String[] args) {
@@ -80,15 +89,39 @@ public class WarpManager {
 		p.sendMessage(u.chat("&7&oX: "+l.getX()+";     Y: "+l.getY()+";     Z: "+l.getZ()));
 	}
 	
-	public void removeWarp(String name) {
-		warps.remove(name);
+	public void removeWarp(Player p, String name) {
+		if(warps.containsKey(name)) {
+			warps.remove(name);
+			p.sendMessage(u.chat("&7&oWarp "+ name +" has been removed succesfully!"));
+		} else {
+			p.sendMessage(u.chat("&4&oWarp "+ name +" doesn't exist!"));
+		}
+		
 	}
 	
 	public void tp(Player p, String command) {
+		
 		if(command.equals("pvp")) {
 			command += "mine";
 		}
-		wu.tp(p, command, warps);
+		
+		String show = null;
+		if(command.equals("pvpmine")) {
+			show = "PvP Mine";
+		} else {
+			show = command.substring(0, 1).toUpperCase() + command.substring(1);
+		}
+		
+		if(warps.size() > 0) {
+			if(warps.containsKey(command)) {
+				p.sendMessage(u.chat("&7&oWarping to "+ show +"!"));
+				p.teleport(warps.get(command));
+			} else {
+				p.sendMessage(u.chat("&4&oWarp "+ command +" doesn't exist!"));
+			}
+		} else {
+			p.sendMessage(u.chat("&4&oWarp "+ command +" doesn't exist!"));
+		}
 	}
 	
 	public Map<String,Location> getWarps() {

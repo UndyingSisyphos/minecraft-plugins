@@ -29,11 +29,11 @@ public class WarpExecutor implements CommandExecutor {
 	private GUIManager gm = null;
 	private WarpManager wm = null;
 	
-	public WarpExecutor(Main main, WarpManager wm) {
+	public WarpExecutor(Main main) {
 		this.main = main;
-		u = new Utils();
-		gm = main.getGM();
-		this.wm = wm;
+		u = Utils.getInstance();
+		gm = GUIManager.getInstance(main);
+		wm = WarpManager.getInstance(main);
 		initCommands();
 	}
 	
@@ -50,41 +50,39 @@ public class WarpExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
-			switch(args.length) {
-			case(0):
-				switch(cmd.getName()) {
-				case("warp"):
+			
+			switch(cmd.getName()) {
+			case("warp"):
+				switch(args.length) {
+				case(0):
 					p.openInventory(gm.getInv("warps", p));
 					return true;
-				case("setwarp"):
-					wm.createWarp(p, args);
-					return true;
-				case("delwarp"):
-					wm.removeWarp(args[0]);
-					return true;
-				default:
-					wm.tp(p, cmd.getName());
-					return true;
-				}
-			case(1):
-				if(cmd.getName().equals("warp")) {
+				case(1):
 					wm.tp(p, args[0]);
 					return true;
-				} else {
+				default:
 					p.sendMessage(u.chat("&4&oError! Too many arguments!"));
-					return true;
+					return false;
 				}
-			case(4):
-				if(cmd.getName().equals("setwarp")) {
+			case("setwarp"):
+				if(args.length == 2 || args.length == 4) {
 					wm.createWarp(p, args);
 					return true;
 				} else {
-					p.sendMessage(u.chat("&4&oError! Too many arguments!"));
+					p.sendMessage(u.chat("&4&oError! Too many (or too few) arguments!"));
+					return false;
+				}
+			case("delwarp"):
+				if(args.length == 1) {
+					wm.removeWarp(p, args[0]);
 					return true;
+				} else {
+					p.sendMessage(u.chat("&4&oError! Too manyies arguments!"));
+					return false;
 				}
 			default:
-				p.sendMessage(u.chat("&4&oError! Too many arguments!"));
-				return true;
+				p.sendMessage(u.chat("&4&oError! Command doesn't exist!"));
+				return false;
 			}
 		}
 		return false;

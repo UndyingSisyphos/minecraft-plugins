@@ -12,17 +12,17 @@ commands:
     aliases: [pvp]
     usage: Error! Ask admins to correct the issue. 
   warp:
-    usage: Error! Make sure to write /<command> <warp_name>. Do /help commands to get help on commands.
+    usage: Make sure to write /<command> <warp_name>. Do /help commands to get help on commands.
   setwarp:
-    usage: Error! Make sure to write /<command> <warp_name> [x] [y] [z].
+    usage: Make sure to write /<command> <warp_name> <here/[x] [y] [z]>.
   delwarp:
-    usage: Error! Make sure to write /<command> <warp_name>.
+    usage: Make sure to write /<command> <warp_name>.
   withdraw:
-    usage: Error! Make sure to write /<command> <currency> <amount>. Do /help commands to get help on commands.
+    usage: Make sure to write /<command> <currency> <amount>. Do /help commands to get help on commands.
   bal:
-    usage: Error! Make sure to write /<command> <currency> <player_name>. Do /help commands to get help on commands.
+    usage: Make sure to write /<command> <currency> <player_name>. Do /help commands to get help on commands.
   pay:
-    usage: Error! Make sure to write /<command> <currency> <amount> <player_name>. Do /help commands to get help on commands.
+    usage: Make sure to write /<command> <currency> <amount> <player_name>. Do /help commands to get help on commands.
 
 permissions:
   warp.mine.a:

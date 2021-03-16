@@ -14,12 +14,20 @@ import prison.main.Utils;
 @SuppressWarnings({"unused" })
 public class GUIUtils {
 	
+	private static GUIUtils instance = null;
 	private Main main = null;
 	private Utils u = null;
 	
 	public GUIUtils(Main main) {
 		this.main = main;
-		u = new Utils();
+		u = Utils.getInstance();
+	}
+	
+	public static GUIUtils getInstance(Main main) {
+		if(instance == null) {
+			instance = new GUIUtils(main);
+		}
+		return instance;
 	}
 	
 	public ItemStack placeholder() {

@@ -1,6 +1,9 @@
 package prison.main;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,16 +18,19 @@ import org.bukkit.plugin.Plugin;
 @SuppressWarnings({"unused"})
 public class Utils {
 	
-	Map<Integer,String> alphabet = null;
+	private static Utils instance = null;
+	private Map<Integer,String> alphabet = null;
 	
-	// Overload
 	public Utils() {
-	}
-	
-	// Overload
-	public Utils(String ab) {
 		alphabet = new HashMap<Integer,String>();
 		initAlphabet();
+	}
+	
+	public static Utils getInstance() {
+		if(instance == null) {
+			instance = new Utils();
+		}
+		return instance;
 	}
 	
 	public String chat(String s) {
@@ -76,6 +82,12 @@ public class Utils {
 		}
 		item.setItemMeta(meta);
 		return item;
+	}
+	
+	public long timeDifference(GregorianCalendar lastClaim) {
+		GregorianCalendar cal = new GregorianCalendar();
+		long diff = cal.getTimeInMillis() - lastClaim.getTimeInMillis();
+		return diff;
 	}
 	
 	public String getRoman(int n) {

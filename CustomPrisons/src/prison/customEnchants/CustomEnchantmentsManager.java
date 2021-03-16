@@ -28,6 +28,7 @@ import prison.main.Utils;
 
 public class CustomEnchantmentsManager implements Listener {
 	
+	private static CustomEnchantmentsManager instance = null;
 	private Main main = null;
 	private Utils u = null;
 	private Random rand = null;
@@ -36,7 +37,7 @@ public class CustomEnchantmentsManager implements Listener {
 	
 	public CustomEnchantmentsManager(Main main) {
 		this.main = main;
-		this.main.getServer().getPluginManager().registerEvents((Listener) this, (Plugin) main);
+		main.getServer().getPluginManager().registerEvents((Listener) this, (Plugin) main);
 		u = new Utils();
 		rand = new Random();
 		list = new ArrayList<CustomEnchant>();
@@ -56,6 +57,13 @@ public class CustomEnchantmentsManager implements Listener {
 			}
 		}
 		loadEnchantments();
+	}
+	
+	public static CustomEnchantmentsManager getInstance(Main main) {
+		if(instance == null) {
+			instance = new CustomEnchantmentsManager(main);
+		}
+		return instance;
 	}
 	
 	public void loadEnchantments() {

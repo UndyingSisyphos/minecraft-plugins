@@ -30,8 +30,8 @@ public class WarpGUI implements GUICreator {
 	
 	public WarpGUI(Main main) {
 		this.main = main;
-		u = new Utils();
-		gu = new GUIUtils(main);
+		u = Utils.getInstance();
+		gu = GUIUtils.getInstance(main);
 		createGUIs();
 	}
 	

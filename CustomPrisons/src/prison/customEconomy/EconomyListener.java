@@ -22,10 +22,11 @@ public class EconomyListener implements Listener, CommandExecutor {
 	private EconomyManager em = null;
 	private Utils u = null;
 	
-	public EconomyListener(Main main, EconomyManager em) {
+	public EconomyListener(Main main) {
 		this.main = main;
-		this.em = em;
-		u = new Utils();
+		main.getServer().getPluginManager().registerEvents((Listener) this, main);
+		em = EconomyManager.getInstance(main);
+		u = Utils.getInstance();
 		initCommands();
 	}
 	

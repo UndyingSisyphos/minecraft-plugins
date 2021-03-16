@@ -27,7 +27,7 @@ public class CustomEnchant extends Enchantment {
 	
 	public CustomEnchant(int id, String name, String rarity, int startLevel, int maxLevel, Material... tools) {
 		super(id);
-		u = new Utils();
+		u = Utils.getInstance();
 		this.id = id;
 		this.name = name;
 		this.rarity = rarity;
@@ -38,7 +38,7 @@ public class CustomEnchant extends Enchantment {
 	
 	public CustomEnchant(int id, String name, String rarity, int startLevel, int maxLevel, PotionEffectType pet, Material... tools) {
 		super(id);
-		u = new Utils();
+		u = Utils.getInstance();
 		this.id = id;
 		this.name = name;
 		this.rarity = rarity;

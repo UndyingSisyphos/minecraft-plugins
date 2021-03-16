@@ -22,29 +22,20 @@ import prison.main.Utils;
 @SuppressWarnings({"unused"})
 public class WarpUtils {
 	
+	private static WarpUtils instance = null;
 	private Main main = null;
 	private Utils u = null;
 	
 	public WarpUtils(Main main) {
 		this.main = main;
-		u = new Utils();
+		u = Utils.getInstance();
 	}
 	
-	public void tp(Player p, String command, Map<String,Location> warps) {
-		String show = command.substring(0, 1).toUpperCase() + command.substring(1);
-		if(command.equals("pvpmine")) {
-			show = "PvP Mine";
+	public static WarpUtils getInstance(Main main) {
+		if(instance == null) {
+			instance = new WarpUtils(main);
 		}
-		if(warps.size() > 0) {
-			if(warps.containsKey(command)) {
-				p.sendMessage(u.chat("&7&oWarping to "+ show +"!"));
-				p.teleport(warps.get(command));
-			} else {
-				p.sendMessage(u.chat("&4&oWarp "+ command +" doesn't exist!"));
-			}
-		} else {
-			p.sendMessage(u.chat("&4&oWarp "+ command +" doesn't exist!"));
-		}
+		return instance;
 	}
 	
 	public Location getLocation(Player p, String[] args) {

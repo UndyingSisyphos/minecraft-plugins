@@ -23,10 +23,18 @@ import prison.customEconomy.PlayerData;
 
 public class FilesManager {
 	
+	private static FilesManager instance = null;
 	private Main main = null;
 	
 	public FilesManager(Main main) {
 		this.main = main;
+	}
+	
+	public static FilesManager getInstance(Main main) {
+		if(instance == null) {
+			instance = new FilesManager(main);
+		}
+		return instance;
 	}
 	
 	public Map<String,Location> readWarps() {

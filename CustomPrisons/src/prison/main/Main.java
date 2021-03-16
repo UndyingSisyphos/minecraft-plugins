@@ -45,13 +45,13 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		u = new Utils();
+		u = Utils.getInstance();
+		fm = FilesManager.getInstance(this);
 		scheduler = getServer().getScheduler();
-		fm = new FilesManager(this);
-		gm = new GUIManager(this);
-		wm = new WarpManager(this);
-		cem = new CustomEnchantmentsManager(this);
-		em = new EconomyManager(this);
+		em = EconomyManager.getInstance(this);
+		cem = CustomEnchantmentsManager.getInstance(this);
+		gm = GUIManager.getInstance(this);
+		wm = WarpManager.getInstance(this);
 	}
 	
 	@Override
@@ -71,25 +71,5 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public BukkitScheduler getScheduler() {
 		return scheduler;
-	}
-	
-	public FilesManager getFM() {
-		return fm;
-	}
-	
-	public GUIManager getGM() {
-		return gm;
-	}
-	
-	public WarpManager getWM() {
-		return wm;
-	}
-	
-	public CustomEnchantmentsManager getCEM() {
-		return cem;
-	}
-	
-	public EconomyManager getEM() {
-		return em;
 	}
 }
