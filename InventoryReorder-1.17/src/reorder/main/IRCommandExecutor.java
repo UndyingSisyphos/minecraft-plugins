@@ -26,7 +26,7 @@ public class IRCommandExecutor implements CommandExecutor {
         if(sender instanceof Player) {
             Player p = (Player) sender;
             if(cmd.getName().equalsIgnoreCase(commands[0])) {
-                p.sendMessage(u.getChatPrefix() + "Help and welcome message!\n"+cmd.getAliases().contains(commands[0]));
+                p.sendMessage(u.getChatPrefix() + "Help and welcome message!");
             }
         }
         return false;
