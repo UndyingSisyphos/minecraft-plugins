@@ -1,8 +1,6 @@
-.gitignore
 .idea
 plugin-tests
 PluginTest-1.17
 PluginTest-1.15.2
 PluginTest-1.12.2
 TestingJavaFeatures
-palle
