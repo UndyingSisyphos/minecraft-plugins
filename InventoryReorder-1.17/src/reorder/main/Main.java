@@ -3,11 +3,7 @@ package reorder.main;
 import java.io.*;
 import java.util.*;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,7 +14,7 @@ public class Main extends JavaPlugin {
 	private int c = 0;
 	Utils u = null;
 
-	private String pluginVersion = "2.1.2";
+	private String pluginVersion = "2.2.0";
 	private boolean enableDefaultExport = true;
 	private boolean enableCustomMaps = false;
 	private String activeMap = null;
@@ -64,6 +60,9 @@ public class Main extends JavaPlugin {
 
 		this.getCommand("hello").setExecutor(this);
 
+		for(Material m: Material.values()) {
+			System.out.println(m);
+		}
 
 		pluginLoaded = true;
 	}
