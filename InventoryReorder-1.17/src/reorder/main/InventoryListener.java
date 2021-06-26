@@ -113,9 +113,6 @@ public class InventoryListener implements Listener {
 		}
 
 		// Put the ordered ItemStacks in the clicked inventory
-
-		// Empty the inventory
-		inv().clear();
 		// Cycle through the ArrayLists
 		for(ArrayList<ItemStack> l: ordered.values()) {
 			// Cycle through the ItemStacks
@@ -124,6 +121,11 @@ public class InventoryListener implements Listener {
 				inv().setItem(start, i);
 				start++;
 			}
+		}
+
+		// Empty the remaining slots of the inventory
+		for(c = start; c < finish; c++) {
+			inv().setItem(c, new ItemStack(Material.AIR, 0));
 		}
 
 		// Update the inventory to the ordered one
