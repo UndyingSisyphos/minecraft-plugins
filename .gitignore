@@ -1,3 +1,4 @@
+/.gitignore
 .idea
 plugin-tests
 PluginTest-1.17
