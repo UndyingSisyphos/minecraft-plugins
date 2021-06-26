@@ -5,5 +5,4 @@ author: DuoClip
 api-version: 1.17
 commands:
   inventoryreorder:
-    usage: "/inventoryreorder"
     aliases: ["invr"]
