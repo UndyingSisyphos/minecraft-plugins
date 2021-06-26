@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.bukkit.Material;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,7 +15,7 @@ public class Main extends JavaPlugin {
 	private int c = 0;
 	Utils u = null;
 
-	private String pluginVersion = "2.2.0";
+	private final String pluginVersion = "2.2.0";
 	private boolean enableDefaultExport = true;
 	private boolean enableCustomMaps = false;
 	private String activeMap = null;
@@ -31,37 +32,41 @@ public class Main extends JavaPlugin {
 	private final String defaultMapPath = currentPath + "\\plugins\\InventoryReorder\\default-sorting-map.yml";
 
 	private InventoryListener il = null;
+	private IRCommandExecutor ce = null;
 
 	public Main() throws IOException {}
 
 	@Override
 	public void onEnable() {
+
 		u = Utils.getInstance();
+
 		if(importConfig()) {
 			System.out.println(u.getChatPrefix() + "Config file loaded!");
 		}
+
 		if(importDefaultMap()) {
 			System.out.println(u.getChatPrefix() + "Default sorting map loaded!");
 		} else {
 			System.out.println(u.getChatPrefix() + "Stopping the plugin loading procedure.");
 			return;
 		}
+
 		if(enableCustomMaps) {
 			if(importCustomMaps()) {
 				System.out.println(u.getChatPrefix() + "Custom sorting maps loaded!");
+			} else {
+				System.out.println(u.getChatPrefix() + "Couldn't load custom sorting maps, check for error messages above.");
 			}
 		}
-		System.out.println(u.getChatPrefix() + "All ID mappings have been successfully loaded!");
+		System.out.println(u.getChatPrefix() + "All available ID sorting maps have been successfully loaded!");
 
 		il = new InventoryListener(this, getActiveBaseMap());
 		this.getServer().getPluginManager().registerEvents((Listener) il, (Plugin) this);
 		System.out.println(u.getChatPrefix() + "Inventory listener loaded!");
 
-		this.getCommand("hello").setExecutor(this);
-
-		for(Material m: Material.values()) {
-			System.out.println(m);
-		}
+		ce = new IRCommandExecutor(this);
+		System.out.println(u.getChatPrefix() + "Command executor loaded!");
 
 		pluginLoaded = true;
 	}
@@ -202,11 +207,15 @@ public class Main extends JavaPlugin {
 			reverseDefaultMap = new TreeMap<>();
 			String line = null;
 			while((line = br.readLine()) != null) {
-				line = line.strip();
-				Material m = Material.getMaterial(line.toUpperCase());
-				baseDefaultMap.put(m, c);
-				reverseDefaultMap.put(c, m);
-				c++;
+				if(!line.startsWith("#") && !line.equals("")) {
+					line = line.strip();
+					Material m = Material.getMaterial(line.toUpperCase());
+					if(m != null) {
+						baseDefaultMap.put(m, c);
+						reverseDefaultMap.put(c, m);
+						c++;
+					}
+				}
 			}
 
 			br.close();
@@ -245,14 +254,16 @@ public class Main extends JavaPlugin {
 	}
 
 	private boolean importCustomMaps() {
+		boolean loaded = false;
 		customMaps = new ArrayList<>();
 		for(String s: customMapsNames) {
 			CustomMap cm = new CustomMap(s.split("\\.")[0]);
 			if(cm.importMap(baseDefaultMap, reverseDefaultMap)) {
+				loaded = true;
 				customMaps.add(cm);
 			}
 		}
-		return true;
+		return loaded;
 	}
 
 	private void exportCustomMaps() {
@@ -323,7 +334,23 @@ public class Main extends JavaPlugin {
 		return activeMap;
 	}
 
-	public void setActiveMap(String name) {
-		this.activeMap = name;
+	public int setActiveMap(String name) {
+		if(name.equalsIgnoreCase(activeMap)) {
+			return 0;
+		}
+		if(!name.equalsIgnoreCase("default")) {
+			for(CustomMap m: customMaps) {
+				if(m.getName().equalsIgnoreCase(name)) {
+					this.activeMap = name;
+					il.changeActiveMap(m.getCompleteBase());
+					return 1;
+				}
+			}
+		} else {
+			this.activeMap = name;
+			il.changeActiveMap(baseDefaultMap);
+			return 1;
+		}
+		return -1;
 	}
 }

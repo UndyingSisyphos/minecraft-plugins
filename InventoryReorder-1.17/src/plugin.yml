@@ -4,7 +4,6 @@ version: "2.1.2"
 author: DuoClip
 api-version: 1.17
 commands:
-  hello:
-    description: "Nothin to see here..."
-    usage: "/hello"
-    permission: "Nothin to see here..."
+  inventoryreorder:
+    usage: "/inventoryreorder"
+    aliases: ["invr"]
