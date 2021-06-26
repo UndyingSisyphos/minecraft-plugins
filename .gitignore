@@ -1,12 +1,6 @@
-.gitignore
 .idea
 plugin-tests
+PluginTest-1.17
 PluginTest-1.15.2
 PluginTest-1.12.2
-jd-gui.exe
-spigot-1.12.2.jar
-spigot-1.15.2.jar
-spigot-1.17.jar
-TickChunks.jar
 TestingJavaFeatures
-

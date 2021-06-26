@@ -1,0 +1,4 @@
+# general:
+#  debug: Whether or not to display messages with a [DEBUG] prefix. Useful when trying to fix an issue.
+general:
+  debug: false

@@ -1,0 +1,16 @@
+#!/bin/sh
+if [ "$1" = "" ]; then
+  echo Usage: $0 \<path-to-KeepChunks-data.yml\>
+  echo
+  echo This will output a data.yml file to stdout that can be put into
+  echo your plugins/TickChunks directory so that all chunks currently
+  echo managed by KeepChunks are then also subject to the TickChunks
+  echo mechanics.
+else
+  kc_data_yml="$1"
+  echo "world-dimensions:"
+  for world_name in `cat "$kc_data_yml" | grep "^- [0-9-]*#[0-9-]*#" | sed -e 's/^-.*#.*#\(.*\)$/\1/' | sort -u`; do
+    echo "  ${world_name}:"
+    cat "$kc_data_yml" | grep "^- [0-9-]*#[0-9-]*#${world_name}" | sed -e 's/^- \([0-9-]*\)#\([0-9-]*\)#.*$/  - x: \1\n    z: \2/'
+  done
+fi
