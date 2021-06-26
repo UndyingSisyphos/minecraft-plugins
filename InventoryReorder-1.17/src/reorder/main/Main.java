@@ -26,7 +26,6 @@ public class Main extends JavaPlugin {
 	private ArrayList<CustomMap> customMaps = null;
 
 	private final String currentPath = new java.io.File(".").getCanonicalPath();
-	private final String csTemp = "\\InventoryReorder-" + pluginVersion + ".jar";
 	private final String csvPath = "/default-sorting-map.csv";
 	private final String configPath = currentPath + "\\plugins\\InventoryReorder\\config.yml";
 	private final String defaultMapPath = currentPath + "\\plugins\\InventoryReorder\\default-sorting-map.yml";
