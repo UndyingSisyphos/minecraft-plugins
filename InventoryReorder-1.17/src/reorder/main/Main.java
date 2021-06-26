@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 
 import org.bukkit.Material;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,10 +25,10 @@ public class Main extends JavaPlugin {
 	private ArrayList<String> customMapsNames = null;
 	private ArrayList<CustomMap> customMaps = null;
 
-	private final String currentPath = new java.io.File(".").getCanonicalPath();
+	private final String currentPath = new File(".").getCanonicalPath() + "\\plugins\\InventoryReorder\\";
 	private final String csvPath = "/default-sorting-map.csv";
-	private final String configPath = currentPath + "\\plugins\\InventoryReorder\\config.yml";
-	private final String defaultMapPath = currentPath + "\\plugins\\InventoryReorder\\default-sorting-map.yml";
+	private final String configPath = currentPath + "config.yml";
+	private final String defaultMapPath = currentPath + "default-sorting-map.yml";
 
 	private InventoryListener il = null;
 	private IRCommandExecutor ce = null;
