@@ -23,18 +23,17 @@ public class GUIListener implements Listener{
 	private GUIManager gm = null;
 	private WarpManager wm = null;
 	
-	public GUIListener(Main main) {
+	public GUIListener(Main main, GUIManager gm) {
 		this.main = main;
 		main.getServer().getPluginManager().registerEvents((Listener) this, (Plugin) main);
 		u = Utils.getInstance();
 		gu = GUIUtils.getInstance(main);
-		gm = GUIManager.getInstance(main);
-		wm = WarpManager.getInstance(main);
+		this.gm = gm;
 	}
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		
+		wm = WarpManager.getInstance(main);
 		Player p = (Player) e.getWhoClicked();
 		if(e.getClickedInventory() != null) {
 			if(e.getClickedInventory().equals(gm.getInv("warps", p))) {

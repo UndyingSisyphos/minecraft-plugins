@@ -1,0 +1,10 @@
+main: play.lococraft.tk.Main
+name: SpawnWarp
+version: 1.0
+author: DuoClip
+
+commands:
+  spawn:
+  warp:
+  incanta:
+  i:

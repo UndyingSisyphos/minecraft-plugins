@@ -29,7 +29,7 @@ public class WarpManager {
 		u = Utils.getInstance();
 		warps = FilesManager.getInstance(main).readWarps();
 		wu = WarpUtils.getInstance(main);
-		wex = new WarpExecutor(main);
+		wex = new WarpExecutor(main, this);
 	}
 	
 	public static WarpManager getInstance(Main main) {

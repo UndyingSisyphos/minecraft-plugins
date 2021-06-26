@@ -14,6 +14,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import prison.main.Main;
+import prison.main.PlayerData;
 import prison.main.Utils;
 
 public class EconomyListener implements Listener, CommandExecutor {
@@ -22,11 +23,11 @@ public class EconomyListener implements Listener, CommandExecutor {
 	private EconomyManager em = null;
 	private Utils u = null;
 	
-	public EconomyListener(Main main) {
+	public EconomyListener(Main main, EconomyManager em) {
 		this.main = main;
 		main.getServer().getPluginManager().registerEvents((Listener) this, main);
-		em = EconomyManager.getInstance(main);
 		u = Utils.getInstance();
+		this.em = em;
 		initCommands();
 	}
 	
@@ -58,49 +59,30 @@ public class EconomyListener implements Listener, CommandExecutor {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
 			
-			// Bal command
-			if(cmd.getName().equalsIgnoreCase("bal")) {
-				if(args.length == 0) {
-					em.getData(p).totalBalChat();
-				} else if(args.length == 1) {
-					String s = args[0];
-					if(s.equalsIgnoreCase("money")) {
-						em.getData(p).moneyBalChat();
-					} else if(s.equalsIgnoreCase("gems")) {
-						em.getData(p).gemsBalChat();
-					}  else if(s.equalsIgnoreCase("tokens")) {
-						em.getData(p).tokensBalChat();
-					} else if(s.equals(p.getName())) {
-						em.getData(p).totalBalChat();
-					} else if(em.getData(s) != null) {
-						em.getData(s).totalBalChat(p);
-					} else {
-						p.sendMessage(u.chat("&cPlayer not found!"));
-					}
-				} else if(args.length == 2) {
-					String s = args[0];
-					String name = args[1];
-					if(name.equals(p.getName())) {
-						if(s.equalsIgnoreCase("money")) {
-							em.getData(p).moneyBalChat();
-						} else if(s.equalsIgnoreCase("gems")) {
-							em.getData(p).gemsBalChat();
-						}  else if(s.equalsIgnoreCase("tokens")) {
-							em.getData(p).tokensBalChat();
-						}
-					} else if(em.getData(name) != null) {
-						if(s.equalsIgnoreCase("money")) {
-							em.getData(name).moneyBalChat(p);
-						} else if(s.equalsIgnoreCase("gems")) {
-							em.getData(name).gemsBalChat(p);
-						}  else if(s.equalsIgnoreCase("tokens")) {
-							em.getData(name).tokensBalChat(p);
-						}
-					} else {
-						p.sendMessage(u.chat("&cPlayer not found!"));
-					}
+			switch(cmd.getName().toLowerCase()) {
+			case("bal"):
+				String message = em.getPlayerBalChat(p, null, command);
+				if(message != null) {
+					p.sendMessage(u.chat(message));
+					return true;
+				} else {
+					p.sendMessage(u.chat("&c&oToo many arguments!"));
+					return false;
 				}
-				return true;
+			case("pay"):
+				if(args.length == 3) {
+					int code = em.transaction(p, args[0], args[1], Integer.parseInt(args[2]));
+					if(code == 1) {
+						p.sendMessage(u.chat("&4&oWrong Object type!/nContact admins to fix the issue!"));
+					}
+					return true;
+				} else {
+					p.sendMessage(u.chat("&c&oToo many (or too few) arguments!"));
+					return false;
+				}
+			
+			
+			
 			}
 			
 			// Withdraw command

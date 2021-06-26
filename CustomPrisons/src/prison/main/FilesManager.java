@@ -19,8 +19,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import prison.customEconomy.PlayerData;
-
 public class FilesManager {
 	
 	private static FilesManager instance = null;

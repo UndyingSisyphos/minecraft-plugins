@@ -1,0 +1,17 @@
+# Plugin installed version. Changing it will not have any effect on the plugin itself
+version: 2.1.2
+
+# Enables the export on file of the default sorting-map hard-coded into the plugin, if true it gets exported at every plugin unload
+enable-default-map-export: true
+
+# Enables the import of customizations through custom '.yml' files
+enable-custom-maps-import: true
+
+# List of the names of the '.yml' files of the custom sorting mappings
+# You can write the names with or without the extension, it doesn't matter
+# But be careful not to put dots in the name, everything past a dot will not be considered
+# Divide the names with commas (',') but don't change line, spaces will be ignored
+custom-maps-names: [ciao]
+
+# The name of the active custom sorting mapping, as before it can have or not the extension, it doesn't matter
+active-map: ciao

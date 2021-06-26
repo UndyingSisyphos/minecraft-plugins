@@ -1,0 +1,6 @@
+# This is the list of customizations for the map 'ciao'
+# The elements that exactly correspond to the default map will not be saved here
+
+diamond_block: 0
+dirt: 5
+grass: 6

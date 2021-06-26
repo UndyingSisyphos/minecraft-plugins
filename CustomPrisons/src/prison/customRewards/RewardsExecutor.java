@@ -20,7 +20,7 @@ public class RewardsExecutor implements CommandExecutor {
 		this.main = main;
 		u = Utils.getInstance();
 		gm = GUIManager.getInstance(main);
-		rm = RewardsManager.getInstance(main);
+		this.rm = rm;
 		initCommands();
 	}
 	

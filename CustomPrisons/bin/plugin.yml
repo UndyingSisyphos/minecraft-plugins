@@ -15,15 +15,15 @@ commands:
     aliases: [warps]
     usage: Make sure to write /<command> <warp_name>. Do /help commands to get help on commands.
   setwarp:
-    usage: Make sure to write /<command> <warp_name> <here/[x] [y] [z]>.
+    usage: Make sure to write /<command> <warp_name> <here/[x] [y] [z]>. Use "~" to indicate a single local coordinate. Do /help commands to get help on commands.
   delwarp:
-    usage: Make sure to write /<command> <warp_name>.
+    usage: Make sure to write /<command> <warp_name>. Do /help commands to get help on commands.
   withdraw:
     usage: Make sure to write /<command> <currency> <amount>. Do /help commands to get help on commands.
   bal:
     usage: Make sure to write /<command> <currency> <player_name>. Do /help commands to get help on commands.
   pay:
-    usage: Make sure to write /<command> <currency> <amount> <player_name>. Do /help commands to get help on commands.
+    usage: Make sure to write /<command> <player_name> <currency> <amount>. Do /help commands to get help on commands.
 
 permissions:
   warp.mine.a:

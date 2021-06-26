@@ -24,7 +24,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import prison.customEconomy.EconomyManager;
 import prison.customEconomy.EconomyUtils;
-import prison.customEconomy.PlayerData;
 import prison.customEnchants.CustomEnchantmentsManager;
 import prison.customGUI.CustomGUI;
 import prison.customGUI.GUIListener;

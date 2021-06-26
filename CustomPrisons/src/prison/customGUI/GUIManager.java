@@ -28,7 +28,7 @@ public class GUIManager {
 	public GUIManager(Main main) {
 		this.main = main;
 		u = Utils.getInstance();
-		gl = new GUIListener(main);
+		gl = new GUIListener(main, this);
 		warps = new WarpGUI(main);
 		all_guis = new HashMap<String,GUICreator>();
 		initGUIs();

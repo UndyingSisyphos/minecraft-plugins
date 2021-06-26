@@ -29,11 +29,10 @@ public class WarpExecutor implements CommandExecutor {
 	private GUIManager gm = null;
 	private WarpManager wm = null;
 	
-	public WarpExecutor(Main main) {
+	public WarpExecutor(Main main, WarpManager wm) {
 		this.main = main;
 		u = Utils.getInstance();
-		gm = GUIManager.getInstance(main);
-		wm = WarpManager.getInstance(main);
+		this.wm = wm;
 		initCommands();
 	}
 	
@@ -48,6 +47,7 @@ public class WarpExecutor implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
+		gm = GUIManager.getInstance(main);
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
 			
@@ -61,7 +61,7 @@ public class WarpExecutor implements CommandExecutor {
 					wm.tp(p, args[0]);
 					return true;
 				default:
-					p.sendMessage(u.chat("&4&oError! Too many arguments!"));
+					p.sendMessage(u.chat("&c&oError! Too many arguments!"));
 					return false;
 				}
 			case("setwarp"):
@@ -69,7 +69,7 @@ public class WarpExecutor implements CommandExecutor {
 					wm.createWarp(p, args);
 					return true;
 				} else {
-					p.sendMessage(u.chat("&4&oError! Too many (or too few) arguments!"));
+					p.sendMessage(u.chat("&c&oError! Too many (or too few) arguments!"));
 					return false;
 				}
 			case("delwarp"):
@@ -77,7 +77,7 @@ public class WarpExecutor implements CommandExecutor {
 					wm.removeWarp(p, args[0]);
 					return true;
 				} else {
-					p.sendMessage(u.chat("&4&oError! Too manyies arguments!"));
+					p.sendMessage(u.chat("&c&oError! Too many arguments!"));
 					return false;
 				}
 			default:
