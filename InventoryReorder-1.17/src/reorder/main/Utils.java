@@ -1,5 +1,12 @@
 package reorder.main;
 
+import org.bukkit.Material;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.TreeMap;
+
 public class Utils {
 
     private static Utils instance = null;
@@ -28,4 +35,10 @@ public class Utils {
     public String getChatFatalError() {
         return chatFatalError;
     }
+
+    /*
+    public CustomMap importMap(String name, String path, boolean external, String successMessage, String errorMessage) {
+
+
+    }*/
 }

@@ -162,8 +162,8 @@ jungle_sign
 acacia_sign
 dark_oak_sign
 stone
-smooth_stone
 infested_stone
+smooth_stone
 granite
 polished_granite
 diorite
@@ -195,6 +195,7 @@ cracked_deepslate_bricks
 deepslate_tiles
 cracked_deepslate_tiles
 chiseled_deepslate
+
 coal_ore
 deepslate_coal_ore
 iron_ore
@@ -211,6 +212,7 @@ diamond_ore
 deepslate_diamond_ore
 emerald_ore
 deepslate_emerald_ore
+
 sandstone
 smooth_sandstone
 cut_sandstone
@@ -222,6 +224,7 @@ chiseled_red_sandstone
 prismarine
 prismarine_bricks
 dark_prismarine
+
 cut_copper
 exposed_cut_copper
 weathered_cut_copper
@@ -234,6 +237,7 @@ waxed_cut_copper
 waxed_exposed_cut_copper
 waxed_weathered_cut_copper
 waxed_oxidized_cut_copper
+
 netherrack
 crimson_nylium
 warped_nylium
@@ -257,10 +261,12 @@ cracked_polished_blackstone_bricks
 smooth_quartz
 chiseled_quartz_block
 quartz_pillar
+
 end_stone
 end_stone_bricks
 purpur_block
 purpur_pillar
+
 stone_slab
 smooth_stone_slab
 granite_slab
@@ -365,6 +371,7 @@ blackstone_wall
 polished_blackstone_brick_wall
 end_stone_brick_wall
 nether_brick_fence
+
 soul_sand
 soul_soil
 magma_block
@@ -413,6 +420,7 @@ crimson_door
 warped_door
 crimson_sign
 warped_sign
+
 charcoal
 coal
 coal_block
@@ -450,11 +458,12 @@ netherite_ingot
 netherite_block
 obsidian
 crying_obsidian
+small_amethyst_bud
+medium_amethyst_bud
+large_amethyst_bud
 budding_amethyst
 amethyst_cluster
-large_amethyst_bud
-medium_amethyst_bud
-small_amethyst_bud
+
 tube_coral_fan
 brain_coral_fan
 bubble_coral_fan

@@ -1,6 +1,6 @@
 main: reorder.main.Main
 name: InventoryReorder
-version: "2.1.2"
+version: "2.2.1"
 author: DuoClip
 api-version: 1.17
 commands:

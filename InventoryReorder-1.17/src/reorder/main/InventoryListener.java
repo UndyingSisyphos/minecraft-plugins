@@ -15,14 +15,36 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class InventoryListener implements Listener {
 
-	Map<Material,Integer> map = null;
-	InventoryClickEvent e = null;
-	Player p = null;
+	private Main main = null;
+	private static InventoryListener instance = null;
+	private Table t = null;
+	private InventoryClickEvent e = null;
+	private Player p = null;
 
-	public InventoryListener(Main main, Map<Material,Integer> map) {
-		this.map = map;
+	private InventoryListener(Main main) {
+		this.main = main;
 	}
-	
+
+	private InventoryListener(Main main, Table t) {
+		this.main = main;
+		this.t = t;
+	}
+
+	public static InventoryListener getInstance(Main main) {
+		if(instance == null) {
+			instance = new InventoryListener(main);
+		}
+		return instance;
+	}
+
+	public static InventoryListener getInstance(Main main, Table t) {
+		if(instance == null) {
+			instance = new InventoryListener(main, t);
+		}
+		return instance;
+	}
+
+
 	@EventHandler
 	public void onMouseWheelClick(InventoryClickEvent e) {
 		if(e.getClick().equals(ClickType.MIDDLE)) {
@@ -38,9 +60,9 @@ public class InventoryListener implements Listener {
 		return e.getClickedInventory();
 	}
 
-	public boolean changeActiveMap(Map<Material,Integer> map) {
-		if(map != null) {
-			this.map = map;
+	public boolean changeActiveTable(Table t) {
+		if(t != null) {
+			this.t = t;
 			return true;
 		}
 		return false;
@@ -62,7 +84,7 @@ public class InventoryListener implements Listener {
 		// The ID-sorting is done automatically since the ArrayLists are associated to the IDs through a TreeMap
 		for(c = start; c < finish; c++) {
 			if(contents[c] != null) {
-				int key = map.get(contents[c].getType());
+				int key = t.indexOf(contents[c].getType());
 				if(ordered.containsKey(key)) {
 					ordered.get(key).add(contents[c]);
 				} else {
