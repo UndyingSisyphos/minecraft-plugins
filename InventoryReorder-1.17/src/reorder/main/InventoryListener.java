@@ -2,6 +2,7 @@ package reorder.main;
 
 import java.util.*;
 
+import com.google.common.collect.Tables;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,6 @@ public class InventoryListener implements Listener {
 
 	private Main main = null;
 	private static InventoryListener instance = null;
-	private Table t = null;
 	private InventoryClickEvent e = null;
 	private Player p = null;
 
@@ -25,21 +25,9 @@ public class InventoryListener implements Listener {
 		this.main = main;
 	}
 
-	private InventoryListener(Main main, Table t) {
-		this.main = main;
-		this.t = t;
-	}
-
 	public static InventoryListener getInstance(Main main) {
 		if(instance == null) {
 			instance = new InventoryListener(main);
-		}
-		return instance;
-	}
-
-	public static InventoryListener getInstance(Main main, Table t) {
-		if(instance == null) {
-			instance = new InventoryListener(main, t);
 		}
 		return instance;
 	}
@@ -60,14 +48,6 @@ public class InventoryListener implements Listener {
 		return e.getClickedInventory();
 	}
 
-	public boolean changeActiveTable(Table t) {
-		if(t != null) {
-			this.t = t;
-			return true;
-		}
-		return false;
-	}
-
 	private void reorder(Inventory inv) {
 		int c = 0, index = 0;						// Counter variables
 		int start = 0;								// Starting point index
@@ -84,7 +64,7 @@ public class InventoryListener implements Listener {
 		// The ID-sorting is done automatically since the ArrayLists are associated to the IDs through a TreeMap
 		for(c = start; c < finish; c++) {
 			if(contents[c] != null) {
-				int key = t.indexOf(contents[c].getType());
+				int key = TablesManager.getInstance(main).getActiveTable().indexOf(contents[c].getType());
 				if(ordered.containsKey(key)) {
 					ordered.get(key).add(contents[c]);
 				} else {

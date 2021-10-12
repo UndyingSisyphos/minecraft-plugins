@@ -16,7 +16,7 @@ public class Main extends JavaPlugin {
 	private boolean enableDefaultExport = true;
 	private boolean enableCustomTables = false;
 	private ArrayList<String> customMapsNames = null;
-	private String activeTable = null;
+	private String activeTableName = null;
 	private boolean enableCustomFilledExport = false;
 	private boolean pluginLoaded = false;
 
@@ -90,7 +90,7 @@ public class Main extends JavaPlugin {
 							customMapsNames.removeAll(Collections.singleton(""));
 							break;
 						case("active-map"):
-							activeTable = args[1].split("\\.")[0];
+							activeTableName = args[1].split("\\.")[0];
 							break;
 						case("enable-filled-custom-map-export"):
 							enableCustomFilledExport = Boolean.parseBoolean(args[1]);
@@ -141,10 +141,10 @@ public class Main extends JavaPlugin {
 			}
 
 			bw.write("\n# The name of the active custom sorting mapping, as before it can have or not the extension, it doesn't matter\n");
-			if(activeTable == null) {
-				activeTable = defaultTableName;
+			if(activeTableName == null) {
+				activeTableName = defaultTableName;
 			}
-			bw.write("active-map: " + activeTable + "\n");
+			bw.write("active-map: " + activeTableName + "\n");
 
 			bw.write("\n# Enables the export on file of the custom maps filled with the non-customized values\n");
 			bw.write("enable-filled-custom-map-export: " + enableCustomFilledExport + "\n");
@@ -169,7 +169,7 @@ public class Main extends JavaPlugin {
 		return enableCustomTables;
 	}
 
-	public ArrayList<String> getCustomMapsNames() {
+	public ArrayList<String> getCustomTablesNames() {
 		return customMapsNames;
 	}
 
@@ -177,8 +177,8 @@ public class Main extends JavaPlugin {
 		return defaultTableName;
 	}
 
-	public String getActiveTable() {
-		return activeTable;
+	public String getActiveTableName() {
+		return activeTableName;
 	}
 
 	public boolean isEnableCustomFilledExport() {
@@ -206,8 +206,8 @@ public class Main extends JavaPlugin {
 		this.customMapsNames = customMapsNames;
 	}
 
-	public void setActiveTable(String activeTable) {
-		this.activeTable = activeTable;
+	public void setActiveTableName(String activeTableName) {
+		this.activeTableName = activeTableName;
 	}
 
 	public void setEnableCustomFilledExport(boolean enableCustomFilledExport) {

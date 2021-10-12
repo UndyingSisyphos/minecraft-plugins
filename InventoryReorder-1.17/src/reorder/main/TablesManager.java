@@ -27,21 +27,12 @@ public class TablesManager {
         TablesList = new ArrayList<>();
         defaultTableName = main.getDefaultTableName();
 
-        if(main.isEnableCustomTables()) {
-            importSuccess = importAllTables();
-        } else {
-            importSuccess = importDefaultTable();
-        }
-        if(importSuccess) {
-            System.out.println(u.getChatPrefix() + "All available ID sorting maps have been successfully loaded!");
+
+        if(importTables(main.isEnableCustomTables())) {
+            System.out.println(u.getChatPrefix() + "All available sorting tables have been loaded!");
         }
 
-        int res = setActiveTable(main.getActiveTable());
-        switch (res) {
-            case (-1) -> System.out.println(u.getChatPrefix() + "The table '" + main.getActiveTable() + "' was not found. The default table is now the active one.");
-            case (0) -> System.out.println(u.getChatPrefix() + "The table '" + main.getActiveTable() + "' is already the active one.");
-            case (1) -> System.out.println(u.getChatPrefix() + "The table '" + main.getActiveTable() + "' has been successfully activated.");
-        }
+        setActiveTable(main.getActiveTableName());
 
         main.getServer().getPluginManager().registerEvents((Listener) il, (Plugin) main);
         System.out.println(u.getChatPrefix() + "Inventory listener loaded!");
@@ -94,35 +85,34 @@ public class TablesManager {
 
     public boolean importDefaultTable() {
 
-        int c = 0;
-        boolean newT = false;
-        Material m = null;
         InputStreamReader in = null;
         BufferedReader br = null;
 
         Table t = getTable(defaultTableName);
         if(t == null) {
             t = new Table(defaultTableName, getExternalPath(defaultTableName));
-            newT = true;
+        } else {
+            TablesList.remove(t);
+            t.clear();
         }
-        t.clear();
 
         try {
             in = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(getInternalPath(t.getName()))));
             br = new BufferedReader(in);
-            System.out.println(u.getChatPrefix() + "Found default sorting map file. Reading data from it...");
+            System.out.println(u.getChatPrefix() + "Found default sorting table file. Reading data from it...");
 
+            int index = 0;
             String line = null;
             while((line = br.readLine()) != null) {
                 if(!line.startsWith("#") && !line.equals("")) {
                     line = line.replaceAll(" ", "");
-                    m = Material.getMaterial(line.toUpperCase());
-                    if(m != null) {
-                        t.put(m, c);
+                    Material material = Material.matchMaterial(line);
+                    if(material != null) {
+                        t.add(material, index);
                     } else {
                         System.out.println(u.getChatPrefix() + "Material '" + line + "' doesn't exist. There is an error in the default table file. Try to download the latest version of the plugin from spigotmc.org or contact the author.");
                     }
-                    c++;
+                    index++;
                 }
             }
 
@@ -135,47 +125,40 @@ public class TablesManager {
         } catch (IOException ignored) {
             return false;
         }
-
-        if(newT) {
-            TablesList.add(t);
-        }
-
+        TablesList.add(t);
+        System.out.println(u.getChatPrefix() + "Default sorting table loaded!");
         return true;
     }
 
     public boolean importExternalTable(String name) {
 
-        int c = 0, ln = 1;
-        Table t = null;
-        boolean newT = false;
-        Material m = null;
         InputStreamReader in = null;
         BufferedReader br = null;
 
-        t = getTable(name);
+        Table t = getTable(name);
         if(t == null) {
             t = new Table(name, getExternalPath(name));
-            newT = true;
+        } else {
+            TablesList.remove(t);
+            t.clear();
         }
-        t.clear();
 
         try {
             in = new InputStreamReader(new FileInputStream(t.getPath()));
             br = new BufferedReader(in);
             System.out.println(u.getChatPrefix() + "Found '" + t.getFileName() + "' file. Reading data from it...");
 
+            int ln = 1;
             String line = null;
             while((line = br.readLine()) != null) {
                 if(!line.startsWith("#") && !line.equals("")) {
-
                     line = line.replaceAll(" ", "");
                     String[] args = line.split(":");
-
                     if (args.length == 2) {
-                        m = Material.getMaterial(args[0].toUpperCase());
-                        c = Integer.parseInt(args[1]);
-                        if(m != null) {
-                            t.put(m, c);
+                        Material material = Material.matchMaterial(args[0]);
+                        int index = Integer.parseInt(args[1]);
+                        if(material != null) {
+                            t.add(material, index);
                         } else {
                             System.out.println(u.getChatPrefix() + "Material '" + args[0] + "' doesn't exist. Check the spelling with the help of the '" + getTable(defaultTableName).getFileName() + "' file.");
                         }
@@ -189,45 +172,50 @@ public class TablesManager {
             br.close();
             in.close();
         } catch (FileNotFoundException e) {
-            System.out.println(u.getChatPrefix() +  u.getChatError() + "Custom map file '" + t.getFileName() + "' not found. Ignoring it...");
+            System.out.println(u.getChatPrefix() +  u.getChatError() + "Custom sorting table file '" + t.getFileName() + "' not found. Ignoring it...");
             return false;
         } catch (IOException ignored) {
             return false;
         }
-
-        if(newT) {
-            TablesList.add(t);
-        }
-
+        TablesList.add(t);
+        System.out.println(u.getChatPrefix() + "Custom sorting table " + t.getName() + ", loaded!");
         return true;
     }
 
-    public boolean importCustomTables() {
-        if(main.getCustomMapsNames().size() == 0) {
-            return true;
+    public void importCustomTables() {
+        if(main.getCustomTablesNames().size() == 0) {
+            System.out.println(u.getChatPrefix() + "No custom tables found. Ignoring them...");
         }
-        boolean res = false;
-        for(String name: main.getCustomMapsNames()) {
+        boolean all = true;
+        boolean oneOrMore = false;
+        for(String name: main.getCustomTablesNames()) {
             if(!name.equalsIgnoreCase("")){
                 if(importExternalTable(name)) {
-                    res = true;
+                    oneOrMore = true;
+                } else {
+                    all = false;
                 }
             }
         }
-        return res;
+
+        if(oneOrMore) {
+            if(all) {
+                System.out.println(u.getChatPrefix() + "All custom sorting tables loaded!");
+            } else {
+                System.out.println(u.getChatPrefix() + "All available custom tables loaded! Check above for error messages on unavailable tables.");
+            }
+        } else {
+            System.out.println(u.getChatPrefix() + "None of the specified custom tables were available. Check above for error messages.");
+        }
     }
 
-    public boolean importAllTables() {
+    public boolean importTables(boolean importCustom) {
         if(!importDefaultTable()) {
-            System.out.println(u.getChatPrefix() + "Stopping the plugin loading procedure.");
             return false;
         }
-        System.out.println(u.getChatPrefix() + "Default sorting map loaded!");
 
-        if(importCustomTables()) {
-            System.out.println(u.getChatPrefix() + "Custom sorting maps loaded!");
-        } else {
-            System.out.println(u.getChatPrefix() + "Couldn't load custom sorting maps, check for error messages above.");
+        if(importCustom) {
+            importCustomTables();
         }
         return true;
     }
@@ -247,19 +235,23 @@ public class TablesManager {
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write("# Modifying this file will not have any effect on the plugin\n# This is just a guide for you to understand how to write your custom mapping of the items to the IDs\n# You can disable the export of this file in the config file\n# By doing so, you can remove this file or modify it and it will not return to the original state until you re-activate the exporting option\n\n");
-            for(Map.Entry<Integer,Material> entry: t.export().entrySet()) {
-                bw.write(entry.getValue().toString().toLowerCase() + ": " + entry.getKey() + "\n");
+            for(Couple couple: t.getList()) {
+                bw.write(couple.getMaterial().name().toLowerCase() + ": " + couple.getIndex() + "\n");
             }
 
             bw.flush();
             bw.close();
             fw.close();
         } catch (IOException ignored) {}
-        System.out.println(u.getChatPrefix() + "Default table has been successfully exported!");
+        System.out.println(u.getChatPrefix() + "Default sorting table exported!");
     }
 
     public void exportExternalTable(Table t) {
         try {
+            if(main.isEnableCustomFilledExport()) {
+                t = complete(t);
+            }
+
             File f = new File(t.getPath());
             if(f.exists()) {
                 System.out.println(u.getChatPrefix() + "Found '" + f.getName() + "' file. Saving changes onto it...");
@@ -272,35 +264,15 @@ public class TablesManager {
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write("# This is the list of customizations for the map '" + f.getName() + "'\n# The elements that exactly correspond to the default map will not be saved here\n\n");
-            for(Map.Entry<Integer,Material> entry: t.export().entrySet()) {
-                bw.write(entry.getValue().toString().toLowerCase() + ": " + entry.getKey() + "\n");
+            for(Couple couple: t.getList()) {
+                bw.write(couple.getMaterial().name().toLowerCase() + ": " + couple.getIndex() + "\n");
             }
+
+            System.out.println(u.getChatPrefix() + "Custom sorting table " + t.getName() + ", exported!");
 
             bw.flush();
             bw.close();
             fw.close();
-
-            if(main.isEnableCustomFilledExport()) {
-                f = new File(t.getPath().replace(".yml", "_Filled.yml"));
-                if(f.exists()) {
-                    System.out.println(u.getChatPrefix() + "Found '" + f.getName() + "' file. Saving changes onto it...");
-                } else {
-                    System.out.println(u.getChatPrefix() + "The filled custom sorting map file '" + f.getName() + "' couldn't be found. Creating a new one...");
-                    boolean result = f.getParentFile().mkdirs() && f.createNewFile();
-                }
-
-                fw = new FileWriter(f);
-                bw = new BufferedWriter(fw);
-
-                bw.write("# This is the custom map filled with the customizations from '" + f.getName() + "'\n\n");
-                for(Map.Entry<Integer,Material> entry: t.export(getTable(defaultTableName)).entrySet()) {
-                    bw.write(entry.getValue().toString().toLowerCase() + ": " + entry.getKey() + "\n");
-                }
-
-                bw.flush();
-                bw.close();
-                fw.close();
-            }
         } catch (IOException ignored) {}
     }
 
@@ -310,7 +282,7 @@ public class TablesManager {
                 exportExternalTable(t);
             }
         }
-        System.out.println(u.getChatPrefix() + "All custom tables have been successfully exported!");
+        System.out.println(u.getChatPrefix() + "All custom sorting tables exported!");
     }
 
     public void exportAllTables() {
@@ -321,7 +293,7 @@ public class TablesManager {
                 exportDefaultTable();
             }
         }
-        System.out.println(u.getChatPrefix() + "All custom tables have been successfully exported!");
+        System.out.println(u.getChatPrefix() + "All sorting tables exported!");
     }
 
     public Table getActiveTable() {
@@ -329,28 +301,40 @@ public class TablesManager {
     }
 
     public int setActiveTable(String name) {
+
         if(activeTable != null) {
             if (name.equalsIgnoreCase(activeTable.getName())) {
-                System.out.println(u.getChatPrefix() + "The table '" + name + "' is already active.");
+                System.out.println(u.getChatPrefix() + "The table '" + name + "' is already the active one.");
                 return 0;
             }
         }
-        for(Table t: TablesList) {
-            if(name.equalsIgnoreCase(t.getName())) {
-                t.enable(getTable(defaultTableName));
-                if(il.changeActiveTable(t)) {
-                    if(activeTable != null) {
-                        activeTable.disable();
-                    }
-                    activeTable = t;
-                    main.setActiveTable(name);
-                    return 1;
-                } else {
-                    t.disable();
-                }
-            }
+
+        if(name.equalsIgnoreCase(defaultTableName)) {
+            activeTable = getTable(defaultTableName);
+            System.out.println(u.getChatPrefix() + "The default table has been successfully activated.");
+            return 1;
         }
-        setActiveTable(defaultTableName);
-        return -1;
+
+        Table t = getTable(name);
+        if(t == null) {
+            setActiveTable(defaultTableName);
+            System.out.println(u.getChatPrefix() + "The table '" + main.getActiveTableName() + "' was not found. The default table is now the active one.");
+            return -1;
+        } else {
+            activeTable = complete(t);
+            main.setActiveTableName(name);
+            System.out.println(u.getChatPrefix() + "The table '" + main.getActiveTableName() + "' has been successfully activated.");
+            return 1;
+        }
+
+
+    }
+
+    public Table complete(Table t) {
+        Table tmp = new Table(getTable(defaultTableName));
+        for(Couple couple: t.getList()) {
+            tmp.move(couple.getMaterial(), couple.getIndex());
+        }
+        return tmp;
     }
 }
